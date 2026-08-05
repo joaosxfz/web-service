@@ -51,3 +51,12 @@ const porta = 3000;
 app.listen(porta, () => {
     console.log(`Servidor rodando na porta ${porta}`);
 });
+
+//rotas em XML
+
+app.get('/produtos/:id/xml', (req, res) => {
+    const produto = produtos.find(p => p.id === Number(req.params.id));
+    if (!produto) {
+        
+    }
+})
