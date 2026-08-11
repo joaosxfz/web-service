@@ -60,3 +60,16 @@ app.get('/produtos/:id/xml', (req, res) => {
         
     }
 })
+                 
+app.put("/produtos/:id", (req, res) => {
+    const produto = produtos.find((p) => p.id === Number(req.params.id));
+    if (!produto) {
+        return res.status(404).json({ erro: "Produto não encontrado"})
+    }
+
+    if (req?.body?.nome && req.body.nome != "") {
+        produto.nome = req.body.nome
+    }
+
+    if (req?.body?.marca && req.body.marca != "")
+})
