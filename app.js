@@ -1,11 +1,43 @@
 import express from "express"
+ 
+
 
 import livros from "./repository/Banco.js"
+
+import swaggerUi from "swagger-ui-express"
+import swaggerSpec from "./swagger.js"
+ 
 
 const app = express()
 
 
 app.use(express.json())
+
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+ 
+/**
+* @openapi
+* /produtos/{id}:
+*   get:
+*     summary: Busca um produto pelo id
+*     parameters:
+*       - in: path
+*         name: id
+*         required: true
+*         schema:
+*           type: integer
+*     responses:
+*       200:
+*         description: Produto encontrado
+*       404:
+*         description: Produto não encontrado
+*/
+app.get("/livros/:id", (req, res) => {
+  const livro = livros.find((p) => p.id === Number(req.params.id));
+  if (!livro) return res.status(404).json({ erro: "Produto não encontrado" });
+  res.status(200).json(produto);
+});
 
 
 //Listar todos os livros 
