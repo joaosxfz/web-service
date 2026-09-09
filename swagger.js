@@ -1,11 +1,22 @@
-import swaggerJSDoc from "swagger-jsdoc";
+import swaggerJsdoc from "swagger-jsdoc"
 
-const opcoes = {
+const options = {
     definition: {
         openapi: "3.0.0",
-        info: { title: "API de produtos", version: "1.0.0" },
+        info: {
+            title: "API Biblioteca",
+            version: "1.0.0",
+            description: "API para gerenciamento de livros"
+        },
+        servers: [
+            {
+                url: "http://localhost:3000"
+            }
+        ]
     },
-    apis: ["./app.js"],
-};
+    apis: ["./app.js"]
+}
 
-export default swaggerJSDoc(opcoes);
+const swaggerSpec = swaggerJsdoc(options)
+
+export default swaggerSpec

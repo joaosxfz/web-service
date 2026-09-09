@@ -1,118 +1,388 @@
 import express from "express"
- 
-
-
-import livros from "./repository/Banco.js"
-
 import swaggerUi from "swagger-ui-express"
 import swaggerSpec from "./swagger.js"
- 
 
 const app = express()
 
-
 app.use(express.json())
 
+let livros = [
+    {
+        id: 1,
+        titulo: "Dom Casmurro",
+        autor: "Machado de Assis",
+        disponivel: true
+    },
+    {
+        id: 2,
+        titulo: "O Cortiço",
+        autor: "Aluísio Azevedo",
+        disponivel: true
+    }
+]
 
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
- 
+// =====================================================
+// GET /livros
+// =====================================================
+
 /**
-* @openapi
-* /produtos/{id}:
-*   get:
-*     summary: Busca um produto pelo id
-*     parameters:
-*       - in: path
-*         name: id
-*         required: true
-*         schema:
-*           type: integer
-*     responses:
-*       200:
-*         description: Produto encontrado
-*       404:
-*         description: Produto não encontrado
-*/
+ * @openapi
+ * /livros:
+ *   get:
+ *     summary: Lista todos os livros
+ *     responses:
+ *       200:
+ *         description: Lista de livros retornada com sucesso
+ */
+app.get("/livros", (req, res) => {
+    res.status(200).json(livros)
+})
+
+// =====================================================
+// GET /livros/:id
+// =====================================================
+
+/**
+ * @openapi
+ * /livros/{id}:
+ *   get:
+ *     summary: Busca um livro pelo ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do livro
+ *     responses:
+ *       200:
+ *         description: Livro encontrado
+ *       404:
+ *         description: Livro não encontrado
+ */
 app.get("/livros/:id", (req, res) => {
-  const livro = livros.find((p) => p.id === Number(req.params.id));
-  if (!livro) return res.status(404).json({ erro: "Produto não encontrado" });
-  res.status(200).json(produto);
-});
+    const id = Number(req.params.id)
+    const livro = livros.find(livro => livro.id === id)
 
-
-//Listar todos os livros 
-app.get('/livros', (req, res) => {
-    res.status(200).json(livros);
-})
-
-//Buscar Livro especifico 
-app.get('/livros:id', (req, res) => {
-    const livro = livros.find(p => p.id === Number(req.params.id));
     if (!livro) {
-        return res.status(404).json({ erro: 'livro não encontrado' });
+        return res.status(404).json({
+            erro: "Livro não encontrado"
+        })
     }
-    res.status(200).json(livros);
+
+    return res.status(200).json(livro)
 })
 
-//criar um livro
-app.post('/livros', (req, res) => {
-      const id = req?.body?.id || null
-    const nome = req?.body?.nome || null
-    const autor = req?.body?.autor || null
-    const emprestimo = req?.body?.emprestimo || null
-    if (!autor) {
-        res.status(400).json({ error: ' autor é obrigatorio ' })
-    }
-    if (!nome) {
-        res.status(400).json({ error: ' nome  é obrigatorio ' })
-    }
-    if (!emprestimo) {
-        res.status(400).json({ error: ' emprestimo é obrigatorio ' })
+// =====================================================
+// POST /livros
+// =====================================================
+
+/**
+ * @openapi
+ * /livros:
+ *   post:
+ *     summary: Cria um novo livro
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - titulo
+ *               - autor
+ *             properties:
+ *               titulo:
+ *                 type: string
+ *                 example: Dom Casmurro
+ *               autor:
+ *                 type: string
+ *                 example: Machado de Assis
+ *               disponivel:
+ *                 type: boolean
+ *                 example: true
+ *     responses:
+ *       201:
+ *         description: Livro criado com sucesso
+ *       400:
+ *         description: Dados inválidos
+ */
+app.post("/livros", (req, res) => {
+    const { titulo, autor, disponivel } = req.body
+
+    if (typeof titulo !== "string" || titulo.trim() === "") {
+        return res.status(400).json({
+            erro: "O título é obrigatório e não pode estar vazio"
+        })
     }
 
-    const novolivro = {
+    if (titulo.trim().length > 100) {
+        return res.status(400).json({
+            erro: "O título deve ter no máximo 100 caracteres"
+        })
+    }
+
+    if (typeof autor !== "string" || autor.trim() === "") {
+        return res.status(400).json({
+            erro: "O autor é obrigatório e não pode estar vazio"
+        })
+    }
+
+    if (autor.trim().length > 100) {
+        return res.status(400).json({
+            erro: "O autor deve ter no máximo 100 caracteres"
+        })
+    }
+
+    if (disponivel !== undefined && typeof disponivel !== "boolean") {
+        return res.status(400).json({
+            erro: "O campo disponivel deve ser booleano"
+        })
+    }
+
+    const novoLivro = {
         id: livros.length + 1,
-         nome: nome, 
-         autor: autor ,
-         emprestimo:emprestimo , id:id
+        titulo: titulo.trim(),
+        autor: autor.trim(),
+        disponivel: disponivel ?? true
     };
 
-    livros.push(novolivro);
-    res.status(201).json(novolivro);
+    livros.push(novoLivro)
+
+    return res.status(201).json(novoLivro)
 })
 
+// =====================================================
+// PUT /livros/:id
+// =====================================================
 
-//alterar um livro
-app.put('/livros/:id', (req, res) => {
-    const livro = livros.find(p => p.id === Number(req.params.id));
+/**
+ * @openapi
+ * /livros/{id}:
+ *   put:
+ *     summary: Atualiza um livro
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do livro
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               titulo:
+ *                 type: string
+ *               autor:
+ *                 type: string
+ *               disponivel:
+ *                 type: boolean
+ *     responses:
+ *       200:
+ *         description: Livro atualizado com sucesso
+ *       400:
+ *         description: Dados inválidos
+ *       404:
+ *         description: Livro não encontrado
+ */
+app.put("/livros/:id", (req, res) => {
+    const id = Number(req.params.id)
+    const livro = livros.find(livro => livro.id === id)
+
     if (!livro) {
-        return res.status(404).json({ erro: "livro não encontrado" });
-    };
+        return res.status(404).json({
+            erro: "Livro não encontrado"
+        })
+    }
 
-    if (req?.body.autor && req.body.nome != "") {
-        livro.autor = req.body.autor;
-    };
+    const { titulo, autor, disponivel } = req.body
 
+    if (titulo !== undefined) {
+        if (typeof titulo !== "string" || titulo.trim() === "") {
+            return res.status(400).json({
+                erro: "O título não pode estar vazio"
+            })
+        }
 
-    if (req?.body.nome && req.body.autor != "") {
-        livro.nome = req.body.nome;
-    };
+        if (titulo.trim().length > 100) {
+            return res.status(400).json({
+                erro: "O título deve ter no máximo 100 caracteres"
+            })
+        }
 
- if (req?.body.emprestimo && req.body.emprestimo != "") {
-        livro.emprestimo = req.body.emprestimo;
-    };
+        livro.titulo = titulo.trim()
+    }
 
-    res.status(200).json(livros);
+    if (autor !== undefined) {
+        if (typeof autor !== "string" || autor.trim() === "") {
+            return res.status(400).json({
+                erro: "O autor não pode estar vazio"
+            })
+        }
+
+        if (autor.trim().length > 100) {
+            return res.status(400).json({
+                erro: "O autor deve ter no máximo 100 caracteres"
+            })
+        }
+
+        livro.autor = autor.trim()
+    }
+
+    if (disponivel !== undefined) {
+        if (typeof disponivel !== "boolean") {
+            return res.status(400).json({
+                erro: "O campo disponivel deve ser booleano"
+            })
+        }
+
+        livro.disponivel = disponivel
+    }
+
+    return res.status(200).json(livro)
 })
 
-//deletar via ID
+// =====================================================
+// DELETE /livros/:id
+// =====================================================
+
+/**
+ * @openapi
+ * /livros/{id}:
+ *   delete:
+ *     summary: Remove um livro
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do livro
+ *     responses:
+ *       204:
+ *         description: Livro removido com sucesso
+ *       404:
+ *         description: Livro não encontrado
+ */
 app.delete("/livros/:id", (req, res) => {
-    const indice = livros.findIndex((p) => p.id === Number(req.params.id));
-    if (indice === -1)
-        return res.status(404).json({ erro: "livro não encontrado" })
-    livros.splice(indice, 1);
-    res.status(204).send({ message: "excluido com sucesso" });
+    const id = Number(req.params.id)
+    const index = livros.findIndex(livro => livro.id === id)
+
+    if (index === -1) {
+        return res.status(404).json({
+            erro: "Livro não encontrado"
+        })
+    }
+
+    livros.splice(index, 1)
+
+    return res.status(204).send()
 })
 
+// =====================================================
+// POST /livros/:id/emprestar
+// =====================================================
+
+/**
+ * @openapi
+ * /livros/{id}/emprestar:
+ *   post:
+ *     summary: Realiza o empréstimo de um livro
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do livro
+ *     responses:
+ *       200:
+ *         description: Livro emprestado com sucesso
+ *       400:
+ *         description: Livro indisponível
+ *       404:
+ *         description: Livro não encontrado
+ */
+app.post("/livros/:id/emprestar", (req, res) => {
+    const id = Number(req.params.id)
+    const livro = livros.find(livro => livro.id === id)
+
+    if (!livro) {
+        return res.status(404).json({
+            erro: "Livro não encontrado"
+        })
+    }
+
+    if (!livro.disponivel) {
+        return res.status(400).json({
+            erro: "Livro indisponível para empréstimo"
+        })
+    }
+
+    livro.disponivel = false;
+
+    return res.status(200).json({
+        mensagem: "Livro emprestado com sucesso",
+        livro
+    })
+})
+
+// =====================================================
+// POST /livros/:id/devolver
+// =====================================================
+
+/**
+ * @openapi
+ * /livros/{id}/devolver:
+ *   post:
+ *     summary: Realiza a devolução de um livro
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do livro
+ *     responses:
+ *       200:
+ *         description: Livro devolvido com sucesso
+ *       400:
+ *         description: Livro já está disponível
+ *       404:
+ *         description: Livro não encontrado
+ */
+app.post("/livros/:id/devolver", (req, res) => {
+    const id = Number(req.params.id)
+    const livro = livros.find(livro => livro.id === id)
+
+    if (!livro) {
+        return res.status(404).json({
+            erro: "Livro não encontrado"
+        })
+    }
+
+    if (livro.disponivel) {
+        return res.status(400).json({
+            erro: "Livro já está disponível"
+        })
+    }
+
+    livro.disponivel = true
+
+    return res.status(200).json({
+        mensagem: "Livro devolvido com sucesso",
+        livro
+    })
+})
+
+// =====================================================
+// SWAGGER
+// =====================================================
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 export default app

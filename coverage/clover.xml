@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1788916149770" clover="3.2.0">
+  <project timestamp="1788916149770" name="All files">
+    <metrics statements="77" coveredstatements="77" conditionals="52" coveredconditionals="52" methods="12" coveredmethods="12" elements="141" coveredelements="141" complexity="0" loc="77" ncloc="77" packages="1" files="2" classes="2"/>
+    <file name="app.js" path="C:\Users\joao60999436\Documents\web-service\app.js">
+      <metrics statements="75" coveredstatements="75" conditionals="52" coveredconditionals="52" methods="12" coveredmethods="12"/>
+      <line num="5" count="1" type="stmt"/>
+      <line num="7" count="1" type="stmt"/>
+      <line num="9" count="1" type="stmt"/>
+      <line num="37" count="1" type="stmt"/>
+      <line num="38" count="1" type="stmt"/>
+      <line num="63" count="1" type="stmt"/>
+      <line num="64" count="2" type="stmt"/>
+      <line num="65" count="3" type="stmt"/>
+      <line num="67" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="68" count="1" type="stmt"/>
+      <line num="73" count="1" type="stmt"/>
+      <line num="110" count="1" type="stmt"/>
+      <line num="111" count="9" type="stmt"/>
+      <line num="113" count="9" type="cond" truecount="4" falsecount="0"/>
+      <line num="114" count="2" type="stmt"/>
+      <line num="119" count="7" type="cond" truecount="2" falsecount="0"/>
+      <line num="120" count="1" type="stmt"/>
+      <line num="125" count="6" type="cond" truecount="4" falsecount="0"/>
+      <line num="126" count="2" type="stmt"/>
+      <line num="131" count="4" type="cond" truecount="2" falsecount="0"/>
+      <line num="132" count="1" type="stmt"/>
+      <line num="137" count="3" type="cond" truecount="4" falsecount="0"/>
+      <line num="138" count="1" type="stmt"/>
+      <line num="143" count="2" type="stmt"/>
+      <line num="150" count="2" type="stmt"/>
+      <line num="152" count="2" type="stmt"/>
+      <line num="192" count="1" type="stmt"/>
+      <line num="193" count="9" type="stmt"/>
+      <line num="194" count="13" type="stmt"/>
+      <line num="196" count="9" type="cond" truecount="2" falsecount="0"/>
+      <line num="197" count="1" type="stmt"/>
+      <line num="202" count="8" type="stmt"/>
+      <line num="204" count="8" type="cond" truecount="2" falsecount="0"/>
+      <line num="205" count="4" type="cond" truecount="4" falsecount="0"/>
+      <line num="206" count="1" type="stmt"/>
+      <line num="211" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="212" count="1" type="stmt"/>
+      <line num="217" count="2" type="stmt"/>
+      <line num="220" count="6" type="cond" truecount="2" falsecount="0"/>
+      <line num="221" count="3" type="cond" truecount="4" falsecount="0"/>
+      <line num="222" count="1" type="stmt"/>
+      <line num="227" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="228" count="1" type="stmt"/>
+      <line num="233" count="1" type="stmt"/>
+      <line num="236" count="4" type="cond" truecount="2" falsecount="0"/>
+      <line num="237" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="238" count="1" type="stmt"/>
+      <line num="243" count="2" type="stmt"/>
+      <line num="246" count="3" type="stmt"/>
+      <line num="271" count="1" type="stmt"/>
+      <line num="272" count="2" type="stmt"/>
+      <line num="273" count="5" type="stmt"/>
+      <line num="275" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="276" count="1" type="stmt"/>
+      <line num="281" count="1" type="stmt"/>
+      <line num="283" count="1" type="stmt"/>
+      <line num="310" count="1" type="stmt"/>
+      <line num="311" count="3" type="stmt"/>
+      <line num="312" count="8" type="stmt"/>
+      <line num="314" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="315" count="1" type="stmt"/>
+      <line num="320" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="321" count="1" type="stmt"/>
+      <line num="326" count="1" type="stmt"/>
+      <line num="328" count="1" type="stmt"/>
+      <line num="358" count="1" type="stmt"/>
+      <line num="359" count="3" type="stmt"/>
+      <line num="360" count="8" type="stmt"/>
+      <line num="362" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="363" count="1" type="stmt"/>
+      <line num="368" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="369" count="1" type="stmt"/>
+      <line num="374" count="1" type="stmt"/>
+      <line num="376" count="1" type="stmt"/>
+      <line num="386" count="1" type="stmt"/>
+    </file>
+    <file name="swagger.js" path="C:\Users\joao60999436\Documents\web-service\swagger.js">
+      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <line num="3" count="1" type="stmt"/>
+      <line num="20" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>
